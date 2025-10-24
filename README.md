@@ -2,7 +2,7 @@
 
 Agent Skills are **modular capabilities** that package expertise to extend their functionality. This repository collection of these structured prompts for repeated complex tasks that AI chatbots and agents can follow. For background, please read [Introducing Agent Skills](https://www.anthropic.com/news/skills) by Anthropic and the Claude documentation on [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills).
 
-The `./skills/` directory contains a series of subdirectories, one per skill. Each has a `SKILL.md` file with YAML frontmatter (metadata including a name and a crucial description) and Markdown content providing step-by-step instructions. They can also include optional supporting files like scripts and templates. Skills are selected and invoked by the AI models agentically. Unlike user-invoked commands, the chatbot autonomously decides when to use a Skill based on the user's request and the Skill's description. The description is vital as it tells the agent what the Skill does and when to use it.
+The [`skills/` directory](./skills/) contains a series of subdirectories, one per skill. Each has a `SKILL.md` file with YAML frontmatter (metadata including a name and a crucial description) and Markdown content providing step-by-step instructions. They can also include optional supporting files like scripts and templates. Skills are selected and invoked by the AI models agentically. Unlike user-invoked commands, the chatbot autonomously decides when to use a Skill based on the user's request and the Skill's description. The description is vital as it tells the agent what the Skill does and when to use it.
 
 ## Sharing skills
 
