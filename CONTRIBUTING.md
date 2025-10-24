@@ -4,7 +4,10 @@ Thank you for contributing to this skills repository. This guide covers how to c
 
 ## Report a problem or request a change
 
-Please [create an issue](https://github.com/rcgsheffield/skills/issues/new) to request a change or report a problem.
+Please [create an issue](https://github.com/rcgsheffield/skills/issues/new) to request a change or report a problem.
+
+💡**Have an idea for a new skill?** [Submit a skill idea](https://github.com/rcgsheffield/skills/issues/new?template=new-skill-idea.yml) using our form to start the discussion.
+
 
 ## Quick Start
 
@@ -22,7 +25,7 @@ Please [create an issue](https://github.com/rcgsheffield/skills/issues/new) to 
 
 ### 2. Initialize Skill
 
-Create the `SKILL.md`  file using the template below
+Create the `SKILL.md`  file using the template below
 
 ```markdown
 ---

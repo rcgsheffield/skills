@@ -15,7 +15,11 @@ Skills are useful for making agents more efficiently perform repeated tasks that
 
 ## Contributing
 
-We welcome contributions to this skills repository. Please see [the contribution guide](CONTRIBUTING.md) for detailed guidelines on creating, testing, and submitting skills. For internal skills specific to our organisation, submit a pull request to propose a change or write a new skill.
+We welcome contributions to this skills repository!
+
+💡**Have an idea for a new skill?** [Submit a skill idea](https://github.com/rcgsheffield/skills/issues/new?template=new-skill-idea.yml) for consideration.
+
+Please see [the contribution guide](CONTRIBUTING.md) for detailed guidelines on creating, testing, and submitting skills. For internal skills specific to our organisation, submit a pull request to propose a change or write a new skill.
 
 ### Sharing skills
 
@@ -41,7 +45,7 @@ Treat skills like production code. They need proper tooling, testing, documentat
 
 - **Security Evaluation:** Always vet third-party skills. Skill auditing practices are required.
 
-- **Version control:** Like with software, skills are reusable and sharable components designed to optimise repeatable tasks. We expect to modify and improve them over their lifecycle. To make the challenge of divergent versions tractable, use a [semantic version control scheme](https://semver.org/) to label each skill.
+- **Version control:** Like with software, skills are reusable and sharable components designed to optimise repeatable tasks. We expect to modify and improve them over their lifecycle. To make the challenge of divergent versions tractable, use a [semantic version control scheme](https://semver.org/) to label each skill.
 
 ### Directory structure
 
