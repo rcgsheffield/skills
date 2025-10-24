@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Form Template - University of Sheffield</title>
+  <style>
+    /* Basic styling - enhance as needed */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+
+    .form-field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #005eb8;
+      outline-offset: 2px;
+    }
+
+    .required {
+      color: #d32f2f;
+    }
+
+    .help-text {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .error-message.active {
+      display: block;
+    }
+
+    input[aria-invalid="true"],
+    select[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: #d32f2f;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 5px;
+    }
+
+    button {
+      background-color: #005eb8;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004a94;
+    }
+
+    button:focus {
+      outline: 2px solid #005eb8;
+      outline-offset: 2px;
+    }
+
+    .success-message {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <h1>Contact Form</h1>
+
+  <!-- Success message (hidden by default) -->
+  <div id="success-message" class="success-message" role="status" aria-live="polite">
+    Thank you! Your form has been submitted successfully.
+  </div>
+
+  <form id="contact-form" novalidate>
+
+    <!-- Text Input -->
+    <div class="form-field">
+      <label for="name">
+        Name <span class="required" aria-label="required">*</span>
+      </label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        aria-required="true"
+        aria-invalid="false"
+        aria-describedby="name-help name-error"
+        autocomplete="name"
+      >
+      <span id="name-help" class="help-text">
+        Enter your full name
+      </span>
+      <span id="name-error" class="error-message" role="alert">
+        Please enter your name
+      </span>
+    </div>
+
+    <!-- Email Input -->
+    <div class="form-field">
+      <label for="email">
+        Email Address <span class="required" aria-label="required">*</span>
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        aria-required="true"
+        aria-invalid="false"
+        aria-describedby="email-help email-error"
+        autocomplete="email"
+      >
+      <span id="email-help" class="help-text">
+        We'll use this to contact you
+      </span>
+      <span id="email-error" class="error-message" role="alert">
+        Please enter a valid email address
+      </span>
+    </div>
+
+    <!-- Phone Input -->
+    <div class="form-field">
+      <label for="phone">
+        Phone Number
+      </label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        aria-describedby="phone-help"
+        autocomplete="tel"
+      >
+      <span id="phone-help" class="help-text">
+        Optional - include country code for international numbers
+      </span>
+    </div>
+
+    <!-- Select Dropdown -->
+    <div class="form-field">
+      <label for="subject">
+        Subject <span class="required" aria-label="required">*</span>
+      </label>
+      <select
+        id="subject"
+        name="subject"
+        required
+        aria-required="true"
+        aria-invalid="false"
+        aria-describedby="subject-error"
+      >
+        <option value="">Please select</option>
+        <option value="general">General Enquiry</option>
+        <option value="admissions">Admissions</option>
+        <option value="research">Research</option>
+        <option value="support">Technical Support</option>
+      </select>
+      <span id="subject-error" class="error-message" role="alert">
+        Please select a subject
+      </span>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-field">
+      <label for="message">
+        Message <span class="required" aria-label="required">*</span>
+      </label>
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        required
+        aria-required="true"
+        aria-invalid="false"
+        aria-describedby="message-help message-error"
+      ></textarea>
+      <span id="message-help" class="help-text">
+        Please provide details about your enquiry
+      </span>
+      <span id="message-error" class="error-message" role="alert">
+        Please enter a message
+      </span>
+    </div>
+
+    <!-- Checkbox Group -->
+    <fieldset>
+      <legend>Communication Preferences <span class="required" aria-label="required">*</span></legend>
+
+      <div class="form-field">
+        <input
+          type="checkbox"
+          id="pref-email"
+          name="preferences"
+          value="email"
+          aria-describedby="prefs-error"
+        >
+        <label for="pref-email">Email updates</label>
+      </div>
+
+      <div class="form-field">
+        <input
+          type="checkbox"
+          id="pref-phone"
+          name="preferences"
+          value="phone"
+          aria-describedby="prefs-error"
+        >
+        <label for="pref-phone">Phone calls</label>
+      </div>
+
+      <div class="form-field">
+        <input
+          type="checkbox"
+          id="pref-post"
+          name="preferences"
+          value="post"
+          aria-describedby="prefs-error"
+        >
+        <label for="pref-post">Postal mail</label>
+      </div>
+
+      <span id="prefs-error" class="error-message" role="alert">
+        Please select at least one communication preference
+      </span>
+    </fieldset>
+
+    <!-- Radio Button Group -->
+    <fieldset>
+      <legend>Are you a current student? <span class="required" aria-label="required">*</span></legend>
+
+      <div class="form-field">
+        <input
+          type="radio"
+          id="student-yes"
+          name="current-student"
+          value="yes"
+          required
+          aria-required="true"
+          aria-describedby="student-error"
+        >
+        <label for="student-yes">Yes</label>
+      </div>
+
+      <div class="form-field">
+        <input
+          type="radio"
+          id="student-no"
+          name="current-student"
+          value="no"
+          aria-describedby="student-error"
+        >
+        <label for="student-no">No</label>
+      </div>
+
+      <span id="student-error" class="error-message" role="alert">
+        Please indicate if you are a current student
+      </span>
+    </fieldset>
+
+    <!-- Submit Button -->
+    <button type="submit">Submit Form</button>
+
+  </form>
+</main>
+
+<script>
+  // Form validation and error handling
+  const form = document.getElementById('contact-form');
+  const successMessage = document.getElementById('success-message');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let isValid = true;
+    let firstError = null;
+
+    // Validate text inputs
+    const requiredFields = ['name', 'email', 'subject', 'message'];
+    requiredFields.forEach(fieldId => {
+      const field = document.getElementById(fieldId);
+      const errorMsg = document.getElementById(fieldId + '-error');
+
+      if (!field.value.trim()) {
+        showError(field, errorMsg);
+        isValid = false;
+        if (!firstError) firstError = field;
+      } else {
+        clearError(field, errorMsg);
+      }
+    });
+
+    // Validate email format
+    const emailField = document.getElementById('email');
+    const emailError = document.getElementById('email-error');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailField.value && !emailRegex.test(emailField.value)) {
+      emailError.textContent = 'Please enter a valid email address';
+      showError(emailField, emailError);
+      isValid = false;
+      if (!firstError) firstError = emailField;
+    }
+
+    // Validate checkbox group
+    const checkboxes = document.querySelectorAll('input[name="preferences"]');
+    const prefsError = document.getElementById('prefs-error');
+    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+    if (!anyChecked) {
+      prefsError.classList.add('active');
+      isValid = false;
+      if (!firstError) firstError = checkboxes[0];
+    } else {
+      prefsError.classList.remove('active');
+    }
+
+    // Validate radio group
+    const radioButtons = document.querySelectorAll('input[name="current-student"]');
+    const studentError = document.getElementById('student-error');
+    const anySelected = Array.from(radioButtons).some(rb => rb.checked);
+
+    if (!anySelected) {
+      studentError.classList.add('active');
+      isValid = false;
+      if (!firstError) firstError = radioButtons[0];
+    } else {
+      studentError.classList.remove('active');
+    }
+
+    if (isValid) {
+      // Form is valid - submit
+      console.log('Form submitted successfully');
+
+      // Show success message
+      successMessage.classList.add('active');
+      successMessage.focus();
+
+      // Reset form
+      form.reset();
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        successMessage.classList.remove('active');
+      }, 5000);
+
+    } else {
+      // Focus first error
+      if (firstError) {
+        firstError.focus();
+      }
+    }
+  });
+
+  function showError(field, errorElement) {
+    field.setAttribute('aria-invalid', 'true');
+    errorElement.classList.add('active');
+  }
+
+  function clearError(field, errorElement) {
+    field.setAttribute('aria-invalid', 'false');
+    errorElement.classList.remove('active');
+  }
+
+  // Clear error on input
+  form.querySelectorAll('input, select, textarea').forEach(field => {
+    field.addEventListener('input', function() {
+      const errorId = this.id + '-error';
+      const errorElement = document.getElementById(errorId);
+      if (errorElement && this.value.trim()) {
+        clearError(this, errorElement);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
