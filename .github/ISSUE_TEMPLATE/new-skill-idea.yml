@@ -1,0 +1,73 @@
+name: New Skill Idea
+description: Propose a new skill to extend Claude's capabilities
+title: "[Skill Idea]: "
+labels: ["skill-idea", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new skill! Please provide concrete examples and specific use cases to help us design an effective skill.
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Skill Name
+      description: Suggested name for the skill (lowercase, hyphens only)
+      placeholder: "e.g., api-integration, data-visualization, security-audit"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What should this skill do?
+      description: Describe the skill's purpose and functionality in 2-3 sentences
+      placeholder: "This skill should help with... It would provide..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: trigger-context
+    attributes:
+      label: When should this skill be used?
+      description: What keywords, phrases, or contexts should trigger this skill?
+      placeholder: "When the user mentions..., asks about..., or needs to..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Concrete Examples
+      description: Provide 2-3 specific examples of how this skill would be used
+      placeholder: |
+        Example 1: "User asks: 'Help me...' → Skill should..."
+        Example 2: "User provides... → Skill should..."
+        Example 3: "When working with... → Skill should..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: resource-needs
+    attributes:
+      label: What resources might this skill need?
+      description: Check all that might apply
+      options:
+        - label: Scripts (executable code for deterministic tasks)
+        - label: References (documentation, schemas, or domain knowledge)
+        - label: Assets (templates, boilerplate, or output files)
+        - label: None (instructions only)
+
+  - type: textarea
+    id: resource-details
+    attributes:
+      label: Resource Details
+      description: If you checked any resources above, describe what they might include
+      placeholder: "e.g., Python script for validation, API documentation reference, HTML template for output"
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information that would help in designing this skill
+      placeholder: "Related tools, existing workflows, special requirements, etc."
