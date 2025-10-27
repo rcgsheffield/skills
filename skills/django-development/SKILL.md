@@ -67,7 +67,21 @@ django-admin startproject config .
 **Key distinction**: A project contains configuration and settings, while apps contain specific functionality.
 
 ### 1.3 Configure Initial Settings
+### 1.3.1 Environment variables Management
+**Never commit sensitive data. Use environment variables:**
+```python
+# settings.py
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG_STR = os.environ.get('DEBUG', 'False')
+try:
+    DEBUG = bool(strtobool(DEBUG_STR))
+except ValueError:
+    DEBUG = False
+ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [s.strip() for s in ALLOWED_HOSTS_STR.split(',') if s.strip()]
 
+if DEBUG and not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 **Load the detailed configuration guide:**
 [⚙️ Settings Configuration Reference](./reference/settings_configuration.md)
 
