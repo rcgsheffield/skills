@@ -39,6 +39,50 @@ This command identifies security issues in your settings.
 5. **Keep secrets secret**: Never commit credentials to version control
 6. **Stay updated**: Keep Django and dependencies current
 
+### Required Middleware Configuration
+
+Django's security middleware must be properly configured and ordered. The following middleware components are essential:
+
+```python
+# settings.py
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',  # Must be first - sets security headers
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Clickjacking protection
+]
+```
+
+**SecurityMiddleware** handles:
+- HTTPS redirects (`SECURE_SSL_REDIRECT`)
+- HTTP Strict Transport Security (HSTS)
+- Secure cookie settings
+- Content type options
+
+**Middleware ordering matters**: SecurityMiddleware should be near the top to ensure security headers are applied to all responses.
+
+### Authentication System Setup
+
+Include these required apps for Django's authentication system:
+
+```python
+# settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',  # Authentication framework
+    'django.contrib.contenttypes',  # Content types framework
+    'django.contrib.sessions',  # Session framework
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Your apps...
+]
+```
+
+These apps work together to provide secure authentication, session management, and permission handling.
+
 ---
 
 ## CSRF Protection
@@ -624,9 +668,14 @@ def protected_file(request, filename):
 
 ### Secret Key Management
 
+**CRITICAL**: SECRET_KEY must be at least 50 characters long using strong randomization. Never use predictable values or commit SECRET_KEY to version control.
+
 ```python
 # Bad: Secret key in settings.py
 SECRET_KEY = 'hardcoded-secret-key-bad'
+
+# Good: Generate strong SECRET_KEY (50+ chars)
+# Use this command to generate: python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 
 # Good: Load from environment variable
 import os
@@ -635,9 +684,22 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 if not SECRET_KEY:
     raise ValueError('DJANGO_SECRET_KEY environment variable not set')
 
-# Good: Use python-decouple
-from decouple import config
-SECRET_KEY = config('SECRET_KEY')
+# Validate length (recommended)
+if len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be at least 50 characters long')
+
+# Good: Use python-dotenv
+from dotenv import load_dotenv
+load_dotenv()
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY or len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be set in .env and at least 50 characters long')
+```
+
+**Generate a secure SECRET_KEY:**
+```bash
+python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 ```
 
 ### Debug Mode in Production

@@ -1,7 +1,6 @@
 ---
 name: django-development
 description: Comprehensive guide for building Django web applications following Django 5.2 standards and industry best practices. Use when developing Django projects, implementing models/views/templates, configuring settings, handling forms, ensuring security, or deploying Django applications.
-version: 0.1.0
 domain: web-development, python, django
 ---
 
@@ -67,30 +66,17 @@ django-admin startproject config .
 **Key distinction**: A project contains configuration and settings, while apps contain specific functionality.
 
 ### 1.3 Configure Initial Settings
-### 1.3.1 Environment variables Management
-**Never commit sensitive data. Use environment variables:**
-```python
-# settings.py
-SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG_STR = os.environ.get('DEBUG', 'False')
-try:
-    DEBUG = bool(strtobool(DEBUG_STR))
-except ValueError:
-    DEBUG = False
-ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '')
-ALLOWED_HOSTS = [s.strip() for s in ALLOWED_HOSTS_STR.split(',') if s.strip()]
 
-if DEBUG and not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 **Load the detailed configuration guide:**
 [⚙️ Settings Configuration Reference](./reference/settings_configuration.md)
 
 Essential initial settings:
-- `SECRET_KEY`: Keep secure, use environment variables
+- `SECRET_KEY`: Must be 50+ characters, use environment variables, never commit to version control
 - `DEBUG`: Set to `False` in production
 - `ALLOWED_HOSTS`: Configure for your domain
 - `DATABASES`: Configure database connection
 - `INSTALLED_APPS`: Register Django apps and third-party packages
+- `MIDDLEWARE`: Ensure SecurityMiddleware is enabled and properly ordered
 
 ---
 

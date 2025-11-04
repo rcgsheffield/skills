@@ -647,20 +647,30 @@ ALLOWED_HOSTS=example.com,www.example.com
 # settings.py
 import os
 from pathlib import Path
-from decouple import config, Csv
+from dotenv import load_dotenv
+
+# Load environment variables
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 # Security
-DEBUG = config('DEBUG', default=False, cast=bool)
-SECRET_KEY = config('SECRET_KEY')
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+DEBUG_STR = os.environ.get('DEBUG', 'False')
+DEBUG = DEBUG_STR.lower() in ('true', '1', 'yes')
 
-# Database
-DATABASES = {
-    'default': config(
-        'DATABASE_URL',
-        cast=db_url
-    )
-}
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY or len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be set in .env and at least 50 characters long')
+
+ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
+
+# Database (if using dj-database-url)
+import dj_database_url
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
 ```
 
 ---

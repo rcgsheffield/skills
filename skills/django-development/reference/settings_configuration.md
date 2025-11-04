@@ -102,19 +102,29 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 ### SECRET_KEY
 
+**CRITICAL**: SECRET_KEY must be at least 50 characters long using strong randomization.
+
 ```python
 # Bad: Hardcoded secret key
 SECRET_KEY = 'django-insecure-hardcoded-key'
 
-# Good: Load from environment
+# Good: Load from environment (ensure 50+ characters)
 import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
-# Better: Use python-decouple
-from decouple import config
-SECRET_KEY = config('SECRET_KEY')
+if not SECRET_KEY or len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be set and at least 50 characters long')
 
-# Generate new secret key
+# Better: Use python-dotenv
+# First: pip install python-dotenv
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY or len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be set in .env and at least 50 characters long')
+
+# Generate new secret key (always 50+ characters)
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
 ```
@@ -128,9 +138,12 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Production
 ALLOWED_HOSTS = ['example.com', 'www.example.com']
 
-# Environment-based
-from decouple import config, Csv
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# Environment-based (using python-dotenv)
+from dotenv import load_dotenv
+load_dotenv()
+
+ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
 
 # In .env file:
 # ALLOWED_HOSTS=example.com,www.example.com
@@ -898,20 +911,56 @@ LOGGING = {
 
 ### Environment Variables
 
+Use python-dotenv to load environment variables from a .env file:
+
+```bash
+# Install python-dotenv
+pip install python-dotenv
+```
+
 ```python
-# Use python-decouple
-from decouple import config, Csv
+# settings.py
+import os
+from pathlib import Path
+from dotenv import load_dotenv
 
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
-DATABASE_URL = config('DATABASE_URL')
+# Build paths inside the project
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# .env file
-SECRET_KEY=your-secret-key
+# Load environment variables from .env file
+load_dotenv(BASE_DIR / '.env')
+
+# Secret key
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY or len(SECRET_KEY) < 50:
+    raise ValueError('SECRET_KEY must be set in .env and at least 50 characters long')
+
+# Debug mode
+DEBUG_STR = os.environ.get('DEBUG', 'False')
+DEBUG = DEBUG_STR.lower() in ('true', '1', 'yes')
+
+# Allowed hosts
+ALLOWED_HOSTS_STR = os.environ.get('ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_STR.split(',') if host.strip()]
+
+# Database (if using DATABASE_URL)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+```
+
+```bash
+# .env file (add to .gitignore!)
+SECRET_KEY=your-50-plus-character-secret-key-here-generated-securely
 DEBUG=False
 ALLOWED_HOSTS=example.com,www.example.com
 DATABASE_URL=postgresql://user:password@localhost/dbname
+```
+
+**Important**: Always add .env to .gitignore to prevent committing secrets:
+
+```bash
+# .gitignore
+.env
+*.env
 ```
 
 ### Settings Checklist
