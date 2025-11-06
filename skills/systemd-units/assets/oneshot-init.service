@@ -1,0 +1,19 @@
+[Unit]
+Description=Oneshot Initialization Service
+Documentation=https://example.com/docs
+Before=multi-user.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/initialize-system.sh
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=system-init
+
+# Oneshot services often need more time
+TimeoutStartSec=300
+
+[Install]
+WantedBy=multi-user.target
