@@ -1,0 +1,56 @@
+[Unit]
+Description=Background Worker Service (Queue Processor)
+Documentation=https://example.com/docs
+After=network-online.target redis.service postgresql.service
+Wants=network-online.target
+Requires=redis.service postgresql.service
+
+[Service]
+Type=exec
+DynamicUser=yes
+WorkingDirectory=/opt/worker
+Environment="WORKER_ENV=production"
+EnvironmentFile=-/etc/worker/worker.env
+ExecStart=/usr/bin/python3 /opt/worker/worker.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=worker
+
+# Longer timeout for worker initialization
+TimeoutStartSec=60
+TimeoutStopSec=30
+
+# Filesystem hardening
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/worker /var/log/worker
+NoNewPrivileges=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+
+# Network access needed for queue/database
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+# Capability restrictions
+CapabilityBoundingSet=
+
+# System call filtering
+SystemCallFilter=@system-service
+SystemCallArchitectures=native
+
+# Memory protection
+MemoryDenyWriteExecute=yes
+LockPersonality=yes
+
+# Misc hardening
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RemoveIPC=yes
+
+[Install]
+WantedBy=multi-user.target

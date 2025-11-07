@@ -1,0 +1,26 @@
+[Unit]
+Description=Basic Web Application Service
+Documentation=https://example.com/docs
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=webapp
+Group=webapp
+WorkingDirectory=/opt/webapp
+Environment="NODE_ENV=production"
+EnvironmentFile=-/etc/webapp/webapp.env
+ExecStart=/usr/bin/node /opt/webapp/server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=webapp
+
+# Basic timeout settings
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
