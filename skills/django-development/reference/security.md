@@ -20,7 +20,7 @@ This reference provides comprehensive security guidance for Django applications.
 
 Django is designed to help developers avoid common security mistakes. However, proper configuration and coding practices are essential.
 
-### Security Checklist
+### Django Security Check Command
 
 Run Django's security check before deployment:
 

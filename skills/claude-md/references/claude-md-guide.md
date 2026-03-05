@@ -1,7 +1,7 @@
 # Writing Effective CLAUDE.md Files for Claude Code
 
 A practical guide synthesising Anthropic's official documentation, the research paper
-*Evaluating AGENTS.md* (Gloaguen et al., 2026), and community best practices.
+_Evaluating AGENTS.md_ (Gloaguen et al., 2026), and community best practices.
 
 ---
 
@@ -9,7 +9,7 @@ A practical guide synthesising Anthropic's official documentation, the research 
 
 The single most important finding from empirical research is counterintuitive:
 **more instructions tend to hurt, not help**. The 2026 study from ETH Zurich found that
-LLM-generated context files *reduced* agent task-success rates and increased inference
+LLM-generated context files _reduced_ agent task-success rates and increased inference
 cost by over 20%. Human-written files only marginally improved performance — and only
 when they contained minimal, actionable requirements.
 
@@ -26,11 +26,11 @@ to your codebase — specifically the things it cannot infer by reading the code
 
 Cover three things and nothing more:
 
-| Dimension | Question to answer |
-|-----------|-------------------|
-| **WHAT** | What is this codebase? Tech stack, repo structure, key directories |
-| **WHY** | What is its purpose? What do the major components do? |
-| **HOW** | How does work get done? Build, test, lint commands; tooling quirks |
+| Dimension | Question to answer                                                 |
+| --------- | ------------------------------------------------------------------ |
+| **WHAT**  | What is this codebase? Tech stack, repo structure, key directories |
+| **WHY**   | What is its purpose? What do the major components do?              |
+| **HOW**   | How does work get done? Build, test, lint commands; tooling quirks |
 
 ---
 
@@ -53,6 +53,7 @@ instructions waste your instruction budget and context window on every task, inc
 ones where formatting is irrelevant.
 
 Instead:
+
 - Use a deterministic linter/formatter (e.g. `ruff`, `biome`, `prettier`)
 - Automate it via a **Stop hook** so Claude's edits are formatted automatically
 - Or create a `/lint` slash command to invoke style checks on demand
@@ -92,12 +93,14 @@ than inline examples.
 ### 5. Include only the commands Claude cannot discover itself
 
 Good candidates for `CLAUDE.md`:
+
 - Non-obvious tooling (e.g. `uv` instead of `pip`, `bun` instead of `npm`)
 - Project-specific scripts that have no standard equivalent
 - How to run the test suite and verify changes
 - Environment setup that is genuinely unusual
 
 Do **not** include:
+
 - `git status`, `ls`, `cat` — Claude knows these
 - Obvious commands it can discover from `package.json`, `Makefile`, or `pyproject.toml`
 - Long lists of every possible command
@@ -128,27 +131,34 @@ production code: subject to review, not a dumping ground.
 # [Project Name]
 
 ## Purpose
+
 [One to three sentences: what this project does and why it exists.]
 
 ## Repository Layout
+
 [Brief directory map — only non-obvious structure. Skip if standard.]
-src/          # Application code
-tests/        # Test suite
-agent_docs/   # Extended documentation for Claude — read relevant files before starting
+src/ # Application code
+tests/ # Test suite
+agent_docs/ # Extended documentation for Claude — read relevant files before starting
 
 ## Key Tooling
+
 - Runtime: [e.g. Python 3.12 via uv, not pip]
 - Test runner: [e.g. pytest — run with `uv run pytest`]
 - Linter: [e.g. ruff — runs automatically on save via hook]
 - Build: [e.g. `make build`]
 
 ## Verification
+
 Before considering a task complete:
+
 1. Run the test suite: [command]
 2. Run the type checker: [command]
 
 ## Extended Documentation
+
 Read the relevant file(s) before starting work on the following topics:
+
 - Architecture and service boundaries → agent_docs/architecture.md
 - Database conventions → agent_docs/database_conventions.md
 - Deployment → agent_docs/deployment.md
@@ -174,15 +184,15 @@ what is unique and non-obvious about that part of the codebase.
 
 ## What NOT to Put in CLAUDE.md
 
-| ❌ Avoid | ✅ Instead |
-|---------|----------|
-| Code style rules | Configure a linter; use a Stop hook |
-| Large code snippets | Reference the file and line |
-| Instructions only relevant to one task type | Put them in `agent_docs/` |
-| Generic reminders ("be careful", "think step by step") | Trust the model |
-| Exhaustive command lists | Include only non-obvious ones |
-| Auto-generated overviews of directory structure | Claude can run `ls` |
-| Anything that duplicates existing README/docs | Point to those files instead |
+| ❌ Avoid                                               | ✅ Instead                          |
+| ------------------------------------------------------ | ----------------------------------- |
+| Code style rules                                       | Configure a linter; use a Stop hook |
+| Large code snippets                                    | Reference the file and line         |
+| Instructions only relevant to one task type            | Put them in `agent_docs/`           |
+| Generic reminders ("be careful", "think step by step") | Trust the model                     |
+| Exhaustive command lists                               | Include only non-obvious ones       |
+| Auto-generated overviews of directory structure        | Claude can run `ls`                 |
+| Anything that duplicates existing README/docs          | Point to those files instead        |
 
 ---
 
@@ -211,5 +221,5 @@ write fewer, better-targeted ones.
 
 ---
 
-*Sources: Gloaguen et al. (2026) "Evaluating AGENTS.md", Anthropic Claude Code
-documentation, HumanLayer "Writing a good CLAUDE.md", Trail of Bits claude-code-config.*
+_Sources: Gloaguen et al. (2026) "Evaluating AGENTS.md", Anthropic Claude Code
+documentation, HumanLayer "Writing a good CLAUDE.md", Trail of Bits claude-code-config._

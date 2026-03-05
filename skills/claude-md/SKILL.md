@@ -14,11 +14,11 @@ More instructions hurt performance. Every line in `CLAUDE.md` is injected into e
 
 A good `CLAUDE.md` answers exactly three questions:
 
-| Dimension | Question |
-|-----------|----------|
-| WHAT | What is this codebase? Tech stack, repo structure, key directories |
-| WHY | What is its purpose? What do the major components do? |
-| HOW | How does work get done? Build, test, lint commands; tooling quirks |
+| Dimension | Question                                                           |
+| --------- | ------------------------------------------------------------------ |
+| WHAT      | What is this codebase? Tech stack, repo structure, key directories |
+| WHY       | What is its purpose? What do the major components do?              |
+| HOW       | How does work get done? Build, test, lint commands; tooling quirks |
 
 ## Workflow
 
@@ -33,12 +33,14 @@ Before writing, read the following to understand what Claude can already discove
 ### Step 2: Identify what Claude cannot discover itself
 
 Include only:
+
 - Non-standard tooling (`uv` not `pip`, `bun` not `npm`, `just` not `make`)
 - Non-obvious test/verify commands
 - Project-specific scripts with no standard equivalent
 - Unusual environment setup
 
 Exclude:
+
 - `git status`, `ls`, `cat` — Claude knows these
 - Commands discoverable from `package.json` or `Makefile`
 - Code style rules (delegate to a linter)
@@ -51,25 +53,32 @@ Exclude:
 # [Project Name]
 
 ## Purpose
+
 [One to three sentences: what this project does and why it exists.]
 
 ## Repository Layout
+
 [Brief directory map — only non-obvious entries.]
-src/          # Application code
-agent_docs/   # Extended docs for Claude — read relevant files before starting
+src/ # Application code
+agent_docs/ # Extended docs for Claude — read relevant files before starting
 
 ## Key Tooling
+
 - Runtime: [e.g. Python 3.12 via uv, not pip]
 - Test runner: [e.g. pytest — run with `uv run pytest`]
 - Linter: [runs automatically via hook]
 
 ## Verification
+
 Before considering a task complete:
+
 1. [Test command]
 2. [Type check or lint command if not automated]
 
 ## Extended Documentation
+
 Read the relevant file before starting work on:
+
 - Architecture → agent_docs/architecture.md
 - Database conventions → agent_docs/database.md
 ```
