@@ -1,0 +1,60 @@
+[Unit]
+Description=Hardened Web Application Service
+Documentation=https://example.com/docs
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+# Dynamic user provides automatic user/group isolation
+DynamicUser=yes
+WorkingDirectory=/opt/webapp
+Environment="NODE_ENV=production"
+EnvironmentFile=-/etc/webapp/webapp.env
+ExecStart=/usr/bin/node /opt/webapp/server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=webapp
+
+# Timeout settings
+TimeoutStartSec=30
+TimeoutStopSec=30
+
+# Filesystem hardening
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/webapp /var/log/webapp
+NoNewPrivileges=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+
+# Network restrictions
+RestrictAddressFamilies=AF_INET AF_INET6
+
+# Capability restrictions
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+# System call filtering
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+SystemCallArchitectures=native
+
+# Memory protection
+MemoryDenyWriteExecute=yes
+LockPersonality=yes
+
+# Misc hardening
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RemoveIPC=yes
+
+[Install]
+WantedBy=multi-user.target

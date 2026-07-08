@@ -1,0 +1,6 @@
+/*
+!/skills/
+!/.gitignore
+
+__pycache__/
+*.pyc
