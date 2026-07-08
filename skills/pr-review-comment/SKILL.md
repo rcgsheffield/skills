@@ -1,6 +1,8 @@
 ---
 name: pr-review-comment
 description: Review a GitHub pull request and post the review as a formal PR review comment in one step. Use when the user asks to "review this PR and comment", "post a review on PR #N", or wants PR feedback published to GitHub rather than just printed. For reviewing without posting, use /review; for reviewing the local working diff, use /code-review.
+version: 0.1.0
+domain: github, code-review, pull-requests
 ---
 
 # PR Review + Comment
